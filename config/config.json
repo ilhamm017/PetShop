@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "thouka",
+    "password": "180618",
+    "database": "database_development_3",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "12345678",
+    "database": "database_test_2",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "ssl": true,
+    "username": "nafaygijreuszo",
+    "password": "8d4728f47eeda6b1eb26de0127607b95ce04e151adb19af0e29e51b90d9a6b17",
+    "database": "d566dcnr44qbap",
+    "host": "https://fp3-production.up.railway.app/",
+    "dialect": "postgres"
+  }
+}

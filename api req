@@ -1,0 +1,34 @@
+User Register = 
+{
+    "email":"ilham@email.com",
+    "full_name":"ilham",
+    "password":"admin123", 
+    "gender":"male",
+    "role":"admin"
+}
+
+User Login = 
+{
+    "email":"ilham@email.com",
+    "password":"admin123"
+}
+
+User Topup = 
+{
+    "balance":"20000"
+}
+
+Categories create = 
+{
+    "type":"Makanan"
+}
+
+Product create
+{
+    "title":"tempe goreng",
+    "price":"1000",
+    "stock":"10",
+    "CategoryId":"1"
+}
+
+
