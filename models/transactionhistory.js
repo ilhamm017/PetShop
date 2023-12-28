@@ -52,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
         notNull : true,
         isInt : true
       }
+    },
+    checkout: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     sequelize,

@@ -1,5 +1,6 @@
 const { json } = require('sequelize')
 const Models = require('../models/index')
+const item = require('../models/item')
 
 class TransactionHistoryController {
    static async Create(req, res) {
@@ -121,6 +122,67 @@ class TransactionHistoryController {
 
       }
    }
+
+
+   static async addToTransactionCart(req, res) {
+      const { id } = req.user;
+      try {
+        const { productId, quantity } = req.body;
+    
+        // Validasi product tersedia atau tidak
+        const validateProduct = await Models.Product.findOne({ where: { id: productId } });
+        if (!validateProduct)
+          return res.status(404).json({ message: "Product Id tidak ditemukan" });
+    
+        // Cek apakah stock tersedia cukup
+        if (quantity > validateProduct.stock)
+          return res.status(404).json({ message: "Jumlah produk tidak mengcukupi" });
+         
+         // Buat item baru
+         const newItem = {
+            ProductId: productId,
+            quantity,
+            total_price: validateProduct.price * quantity
+         }
+         
+         if (validateProduct) {
+           const sameProduk = await Models.Item.findOne({ where: { id: productId}})
+           if (sameProduk) {
+             await Models.Item.update({
+               quantity: quantity + newItem.quantity,
+               total_price: total_price + newItem.total_price
+             }, {
+               where: {
+                  id: productId
+               }
+             })
+             return res.status(404).json({ message: "Jumlah produk ditambahkan" });
+           }
+         }
+
+        // Simpan item ke database
+        await Models.Item.create(newItem);
+    
+        // Tambahkan item baru ke keranjang belanja user
+        const userCart = await Models.TransactionHistory.findOne({
+          where: { UserId: id, checkout: false },
+        });
+        
+        userCart.Items.push(newItem);
+        await userCart.create();
+    
+        return res.status(200).json({
+          message: "Product berhasil ditambahkan ke keranjang belanja",
+          cart: userCart,
+        });
+      } catch (err) {
+        return res.status(500).json({
+          message: "Try again",
+          errorMessage: err.message,
+        });
+      }
+    }
+    
 
 }
 
